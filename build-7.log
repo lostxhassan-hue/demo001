@@ -1,0 +1,41 @@
+  ▲ Next.js 14.2.35
+  - Environments: .env
+
+   Creating an optimized production build ...
+ ⚠ Compiled with warnings
+
+./node_modules/bcryptjs/dist/bcrypt.js
+A Node.js API is used (process.nextTick at line: 351) which is not supported in the Edge Runtime.
+Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+
+Import trace for requested module:
+./node_modules/bcryptjs/dist/bcrypt.js
+./src/lib/auth/index.ts
+
+./node_modules/bcryptjs/dist/bcrypt.js
+A Node.js API is used (setImmediate at line: 352) which is not supported in the Edge Runtime.
+Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+
+Import trace for requested module:
+./node_modules/bcryptjs/dist/bcrypt.js
+./src/lib/auth/index.ts
+
+./node_modules/bcryptjs/dist/bcrypt.js
+A Node.js API is used (setImmediate at line: 352) which is not supported in the Edge Runtime.
+Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+
+Import trace for requested module:
+./node_modules/bcryptjs/dist/bcrypt.js
+./src/lib/auth/index.ts
+
+./node_modules/bcryptjs/dist/bcrypt.js
+A Node.js API is used (process.nextTick at line: 352) which is not supported in the Edge Runtime.
+Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+
+Import trace for requested module:
+./node_modules/bcryptjs/dist/bcrypt.js
+./src/lib/auth/index.ts
+
+ ✓ Compiled successfully
+   Skipping validation of types
+   Linting ...

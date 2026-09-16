@@ -1,0 +1,791 @@
+  ▲ Next.js 14.2.35
+  - Environments: .env
+
+   Creating an optimized production build ...
+Failed to compile.
+
+./src/app/settings/page.tsx
+Error: 
+  [31mx[0m the name `MessageSquare` is defined multiple times
+     ,-[[36;1;4mC:\Users\hp\Desktop\software\business-management-system\src\app\settings\page.tsx[0m:12:1]
+ [2m 12[0m | import { Dropdown, DropdownItem } from '@/components/ui/Dropdown'
+ [2m 13[0m | import { Tabs, TabPanel } from '@/components/ui/Tabs'
+ [2m 14[0m | import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card'
+ [2m 15[0m | import { Loader2, Plus, Search, Download, Eye, Edit, Users, Building2, PlugZap, CreditCard, Shield, Database, Globe, Bell, MoreVertical, Trash2, Save, TestTube, Link2, Key, Wifi, AlertCircle, CheckCircle, ShoppingCart, MessageSquare, Truck, BarChart3 } from 'lucide-react'
+     : [31;1m                                                                                                                                                                                                                           ^^^^^^|^^^^^^[0m
+     :                                                                                                                                                                                                                                  [31;1m`-- [31;1mprevious definition of `MessageSquare` here[0m[0m
+ [2m 16[0m | import { toast } from '@/components/ui/Toast'
+ [2m 17[0m | import { useToast } from '@/components/ui/Toast'
+ [2m 18[0m | import { USER_ROLE_OPTIONS, INTEGRATION_TYPE_OPTIONS } from '@/types'
+ [2m 19[0m | import { businessSettingsSchema } from '@/lib/validations/schemas'
+ [2m 20[0m | 
+ [2m 21[0m | const SETTINGS_TABS = [
+ [2m 22[0m |   { value: 'business', label: 'Business', icon: Building2 },
+ [2m 23[0m |   { value: 'users', label: 'Users', icon: Users },
+ [2m 24[0m |   { value: 'integrations', label: 'Integrations', icon: Link2 },
+ [2m 25[0m |   { value: 'roles', label: 'Roles & Permissions', icon: Shield },
+ [2m 26[0m | ]
+ [2m 27[0m | 
+ [2m 28[0m | export default function SettingsPage() {
+ [2m 29[0m |   const router = useRouter()
+ [2m 30[0m |   const { addToast } = useToast()
+ [2m 31[0m |   const [activeTab, setActiveTab] = useState('business')
+ [2m 32[0m |   const [loading, setLoading] = useState(false)
+ [2m 33[0m |   const [settings, setSettings] = useState<any>(null)
+ [2m 34[0m |   const [users, setUsers] = useState<any[]>([])
+ [2m 35[0m |   const [integrations, setIntegrations] = useState<any[]>([])
+ [2m 36[0m |   const [testLoading, setTestLoading] = useState<string | null>(null)
+ [2m 37[0m |   const [syncLoading, setSyncLoading] = useState<string | null>(null)
+ [2m 38[0m | 
+ [2m 39[0m |   // Business Settings Form State
+ [2m 40[0m |   const [formData, setFormData] = useState({
+ [2m 41[0m |     businessName: '',
+ [2m 42[0m |     logo: '',
+ [2m 43[0m |     currency: 'PKR',
+ [2m 44[0m |     currencySymbol: 'Rs.',
+ [2m 45[0m |     timezone: 'Asia/Karachi',
+ [2m 46[0m |     dateFormat: 'DD/MM/YYYY',
+ [2m 47[0m |     taxNumber: '',
+ [2m 48[0m |     taxRate: 0,
+ [2m 49[0m |     lowStockThreshold: 10,
+ [2m 50[0m |     address: '',
+ [2m 51[0m |     phone: '',
+ [2m 52[0m |     email: '',
+ [2m 53[0m |     website: '',
+ [2m 54[0m |   })
+ [2m 55[0m | 
+ [2m 56[0m |   const fetchSettings = async () => {
+ [2m 57[0m |     try {
+ [2m 58[0m |       const response = await fetch('/api/settings')
+ [2m 59[0m |       const data = await response.json()
+ [2m 60[0m |       if (data.success) {
+ [2m 61[0m |         setSettings(data.data)
+ [2m 62[0m |         setFormData(data.data)
+ [2m 63[0m |       }
+ [2m 64[0m |     } catch (error) {
+ [2m 65[0m |       console.error('Failed to fetch settings')
+ [2m 66[0m |     }
+ [2m 67[0m |   }
+ [2m 68[0m | 
+ [2m 69[0m |   const fetchUsers = async () => {
+ [2m 70[0m |     try {
+ [2m 71[0m |       const response = await fetch('/api/users')
+ [2m 72[0m |       const data = await response.json()
+ [2m 73[0m |       if (data.success) setUsers(data.data)
+ [2m 74[0m |     } catch (error) {
+ [2m 75[0m |       console.error('Failed to fetch users')
+ [2m 76[0m |     }
+ [2m 77[0m |   }
+ [2m 78[0m | 
+ [2m 79[0m |   const fetchIntegrations = async () => {
+ [2m 80[0m |     try {
+ [2m 81[0m |       const response = await fetch('/api/integrations')
+ [2m 82[0m |       const data = await response.json()
+ [2m 83[0m |       if (data.success) setIntegrations(data.data)
+ [2m 84[0m |     } catch (error) {
+ [2m 85[0m |       console.error('Failed to fetch integrations')
+ [2m 86[0m |     }
+ [2m 87[0m |   }
+ [2m 88[0m | 
+ [2m 89[0m |   useEffect(() => {
+ [2m 90[0m |     fetchSettings()
+ [2m 91[0m |     fetchUsers()
+ [2m 92[0m |     fetchIntegrations()
+ [2m 93[0m |   }, [])
+ [2m 94[0m | 
+ [2m 95[0m |   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+ [2m 96[0m |     const { name, value, type } = e.target
+ [2m 97[0m |     setFormData(prev => ({ ...prev, [name]: type === 'number' ? parseFloat(value) || 0 : value }))
+ [2m 98[0m |   }
+ [2m 99[0m | 
+ [2m100[0m |   const handleSaveSettings = async () => {
+ [2m101[0m |     setLoading(true)
+ [2m102[0m |     try {
+ [2m103[0m |       const response = await fetch('/api/settings', {
+ [2m104[0m |         method: 'PUT',
+ [2m105[0m |         headers: { 'Content-Type': 'application/json' },
+ [2m106[0m |         body: JSON.stringify(formData),
+ [2m107[0m |       })
+ [2m108[0m |       const data = await response.json()
+ [2m109[0m |       if (data.success) {
+ [2m110[0m |         addToast({ type: 'success', title: 'Settings saved' })
+ [2m111[0m |         setSettings(data.data)
+ [2m112[0m |       } else {
+ [2m113[0m |         addToast({ type: 'error', title: 'Failed to save', message: data.error })
+ [2m114[0m |       }
+ [2m115[0m |     } catch {
+ [2m116[0m |       addToast({ type: 'error', title: 'Error', message: 'Failed to save settings' })
+ [2m117[0m |     } finally {
+ [2m118[0m |       setLoading(false)
+ [2m119[0m |     }
+ [2m120[0m |   }
+ [2m121[0m | 
+ [2m122[0m |   const handleTestIntegration = async (id: string) => {
+ [2m123[0m |     setTestLoading(id)
+ [2m124[0m |     try {
+ [2m125[0m |       const response = await fetch(`/api/integrations/${id}`, {
+ [2m126[0m |         method: 'POST',
+ [2m127[0m |         headers: { 'Content-Type': 'application/json' },
+ [2m128[0m |         body: JSON.stringify({ action: 'test' }),
+ [2m129[0m |       })
+ [2m130[0m |       const data = await response.json()
+ [2m131[0m |       if (data.success) {
+ [2m132[0m |         addToast({ type: 'success', title: 'Connection test', message: data.data.connected ? 'Connected successfully' : 'Connection failed' })
+ [2m133[0m |         fetchIntegrations()
+ [2m134[0m |       } else {
+ [2m135[0m |         addToast({ type: 'error', title: 'Test failed', message: data.error })
+ [2m136[0m |       }
+ [2m137[0m |     } catch {
+ [2m138[0m |       addToast({ type: 'error', title: 'Error', message: 'Failed to test connection' })
+ [2m139[0m |     } finally {
+ [2m140[0m |       setTestLoading(null)
+ [2m141[0m |     }
+ [2m142[0m |   }
+ [2m143[0m | 
+ [2m144[0m |   const handleSyncIntegration = async (id: string) => {
+ [2m145[0m |     setSyncLoading(id)
+ [2m146[0m |     try {
+ [2m147[0m |       const response = await fetch(`/api/integrations/${id}`, {
+ [2m148[0m |         method: 'POST',
+ [2m149[0m |         headers: { 'Content-Type': 'application/json' },
+ [2m150[0m |         body: JSON.stringify({ action: 'sync' }),
+ [2m151[0m |       })
+ [2m152[0m |       const data = await response.json()
+ [2m153[0m |       if (data.success) {
+ [2m154[0m |         addToast({ type: 'success', title: 'Sync completed', message: `Synced ${data.data.synced} records` })
+ [2m155[0m |         fetchIntegrations()
+ [2m156[0m |       } else {
+ [2m157[0m |         addToast({ type: 'error', title: 'Sync failed', message: data.error })
+ [2m158[0m |       }
+ [2m159[0m |     } catch {
+ [2m160[0m |       addToast({ type: 'error', title: 'Error', message: 'Failed to sync' })
+ [2m161[0m |     } finally {
+ [2m162[0m |       setSyncLoading(null)
+ [2m163[0m |     }
+ [2m164[0m |   }
+ [2m165[0m | 
+ [2m166[0m |   const handleDeleteIntegration = async (id: string) => {
+ [2m167[0m |     if (!confirm('Are you sure you want to delete this integration?')) return
+ [2m168[0m |     try {
+ [2m169[0m |       const response = await fetch(`/api/integrations/${id}`, { method: 'DELETE' })
+ [2m170[0m |       const data = await response.json()
+ [2m171[0m |       if (data.success) {
+ [2m172[0m |         addToast({ type: 'success', title: 'Integration deleted' })
+ [2m173[0m |         fetchIntegrations()
+ [2m174[0m |       } else {
+ [2m175[0m |         addToast({ type: 'error', title: 'Failed to delete', message: data.error })
+ [2m176[0m |       }
+ [2m177[0m |     } catch {
+ [2m178[0m |       addToast({ type: 'error', title: 'Error', message: 'Failed to delete integration' })
+ [2m179[0m |     }
+ [2m180[0m |   }
+ [2m181[0m | 
+ [2m182[0m |   return (
+ [2m183[0m |     <div className="space-y-6">
+ [2m184[0m |       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+ [2m185[0m |         <div>
+ [2m186[0m |           <h1 className="text-2xl font-bold text-secondary-900">Settings</h1>
+ [2m187[0m |           <p className="text-secondary-500 mt-1">Configure business settings, users, and integrations</p>
+ [2m188[0m |         </div>
+ [2m189[0m |       </div>
+ [2m190[0m | 
+ [2m191[0m |       <Tabs tabs={SETTINGS_TABS} activeTab={activeTab} onChange={setActiveTab} variant="line" className="mb-6" />
+ [2m192[0m | 
+ [2m193[0m |       <TabPanel value="business" activeTab={activeTab}>
+ [2m194[0m |         <Card>
+ [2m195[0m |           <CardHeader>
+ [2m196[0m |             <CardTitle>Business Information</CardTitle>
+ [2m197[0m |           </CardHeader>
+ [2m198[0m |           <CardContent className="space-y-6">
+ [2m199[0m |             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+ [2m200[0m |               <Input label="Business Name" name="businessName" value={formData.businessName} onChange={handleInputChange} required />
+ [2m201[0m |               <Input label="Currency" name="currency" value={formData.currency} onChange={handleInputChange} />
+ [2m202[0m |               <Input label="Currency Symbol" name="currencySymbol" value={formData.currencySymbol} onChange={handleInputChange} />
+ [2m203[0m |               <Input label="Timezone" name="timezone" value={formData.timezone} onChange={handleInputChange} />
+ [2m204[0m |               <Input label="Date Format" name="dateFormat" value={formData.dateFormat} onChange={handleInputChange} />
+ [2m205[0m |               <Input label="Tax Number" name="taxNumber" value={formData.taxNumber} onChange={handleInputChange} />
+ [2m206[0m |               <Input label="Tax Rate (%)" name="taxRate" type="number" step="0.01" value={formData.taxRate} onChange={handleInputChange} />
+ [2m207[0m |               <Input label="Low Stock Threshold" name="lowStockThreshold" type="number" value={formData.lowStockThreshold} onChange={handleInputChange} />
+ [2m208[0m |               <Input label="Phone" name="phone" value={formData.phone} onChange={handleInputChange} />
+ [2m209[0m |               <Input label="Email" name="email" type="email" value={formData.email} onChange={handleInputChange} />
+ [2m210[0m |               <Input label="Website" name="website" value={formData.website} onChange={handleInputChange} />
+ [2m211[0m |               <Input label="Logo URL" name="logo" value={formData.logo} onChange={handleInputChange} />
+ [2m212[0m |             </div>
+ [2m213[0m |             <div className="flex justify-end">
+ [2m214[0m |               <Button onClick={handleSaveSettings} isLoading={loading}>
+ [2m215[0m |                 <Save className="w-4 h-4 mr-2" />Save Settings
+ [2m216[0m |               </Button>
+ [2m217[0m |             </div>
+ [2m218[0m |           </CardContent>
+ [2m219[0m |         </Card>
+ [2m220[0m |       </TabPanel>
+ [2m221[0m | 
+ [2m222[0m |       <TabPanel value="users" activeTab={activeTab}>
+ [2m223[0m |         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-4">
+ [2m224[0m |           <h2 className="text-xl font-semibold">User Management</h2>
+ [2m225[0m |           <Button onClick={() => router.push('/settings/users/new')}>
+ [2m226[0m |             <Plus className="w-4 h-4 mr-2" />Add User
+ [2m227[0m |           </Button>
+ [2m228[0m |         </div>
+ [2m229[0m |         <Card>
+ [2m230[0m |           <CardContent className="p-0">
+ [2m231[0m |             <DataTable
+ [2m232[0m |               columns={[
+ [2m233[0m |                 { key: 'name', header: 'Name', width: '180px' },
+ [2m234[0m |                 { key: 'email', header: 'Email', width: '220px' },
+ [2m235[0m |                 { key: 'role', header: 'Role', width: '150px', render: (row) => <Badge variant={row.role === 'SUPER_ADMIN' ? 'danger' : row.role === 'ADMIN' ? 'primary' : 'secondary'}>{row.role}</Badge> },
+ [2m236[0m |                 { key: 'isActive', header: 'Status', width: '100px', render: (row) => <Badge variant={row.isActive ? 'success' : 'secondary'}>{row.isActive ? 'Active' : 'Inactive'}</Badge> },
+ [2m237[0m |                 { key: 'lastLoginAt', header: 'Last Login', width: '150px', render: (row) => row.lastLoginAt ? formatDate(row.lastLoginAt) : 'Never' },
+ [2m238[0m |                 { key: 'actions', header: 'Actions', width: '120px', render: (row) => (
+ [2m239[0m |                   <Dropdown trigger={<Button variant="ghost" size="icon"><MoreVertical className="w-4 h-4" /></Button>} items={[
+ [2m240[0m |                     { label: 'Edit', value: 'edit', icon: <Edit className="w-4 h-4" />, onClick: () => router.push(`/settings/users/${row.id}/edit`) },
+ [2m241[0m |                     { label: 'Reset Password', value: 'password', icon: <Key className="w-4 h-4" />, onClick: () => router.push(`/settings/users/${row.id}/password`) },
+ [2m242[0m |                   ]} />
+ [2m243[0m |                 )},
+ [2m244[0m |               ]}
+ [2m245[0m |               data={users}
+ [2m246[0m |               keyExtractor={(row) => row.id}
+ [2m247[0m |               loading={loading}
+ [2m248[0m |               emptyMessage="No users found"
+ [2m249[0m |               striped
+ [2m250[0m |               hoverable
+ [2m251[0m |             />
+ [2m252[0m |           </CardContent>
+ [2m253[0m |         </Card>
+ [2m254[0m |       </TabPanel>
+ [2m255[0m | 
+ [2m256[0m |       <TabPanel value="integrations" activeTab={activeTab}>
+ [2m257[0m |         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-4">
+ [2m258[0m |           <h2 className="text-xl font-semibold">Integrations</h2>
+ [2m259[0m |           <Button onClick={() => router.push('/settings/integrations/new')}>
+ [2m260[0m |             <Plus className="w-4 h-4 mr-2" />Add Integration
+ [2m261[0m |           </Button>
+ [2m262[0m |         </div>
+ [2m263[0m |         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+ [2m264[0m |           {integrations.map((integration) => (
+ [2m265[0m |             <Card key={integration.id} variant="bordered" className="h-full">
+ [2m266[0m |               <CardHeader className="flex items-center justify-between">
+ [2m267[0m |                 <div className="flex items-center gap-3">
+ [2m268[0m |                   <div className={`p-3 rounded-lg bg-${integration.type === 'SHOPIFY' ? 'purple' : integration.type === 'WHATSAPP' ? 'green' : integration.type === 'COURIER' ? 'blue' : 'orange'}-100`}>
+ [2m269[0m |                     {integration.type === 'SHOPIFY' && <ShoppingCart className="w-5 h-5" />}
+ [2m270[0m |                     {integration.type === 'WHATSAPP' && <MessageSquare className="w-5 h-5" />}
+ [2m271[0m |                     {integration.type === 'COURIER' && <Truck className="w-5 h-5" />}
+ [2m272[0m |                     {integration.type === 'META_ADS' && <BarChart3 className="w-5 h-5" />}
+ [2m273[0m |                   </div>
+ [2m274[0m |                   <div>
+ [2m275[0m |                     <h4 className="font-semibold">{integration.name}</h4>
+ [2m276[0m |                     <p className="text-sm text-secondary-500">{integration.type}</p>
+ [2m277[0m |                   </div>
+ [2m278[0m |                 </div>
+ [2m279[0m |                 <Badge variant={integration.isConnected ? 'success' : 'secondary'}>
+ [2m280[0m |                   {integration.isConnected ? (
+ [2m281[0m |                     <> <CheckCircle className="w-4 h-4 inline mr-1" /> Connected </>
+ [2m282[0m |                   ) : (
+ [2m283[0m |                     <> <AlertCircle className="w-4 h-4 inline mr-1" /> Not Connected </>
+ [2m284[0m |                   )}
+ [2m285[0m |                 </Badge>
+ [2m286[0m |               </CardHeader>
+ [2m287[0m |               <CardContent className="space-y-3">
+ [2m288[0m |                 <div className="grid grid-cols-2 gap-2 text-sm">
+ [2m289[0m |                   <div><p className="text-secondary-500">Last Sync</p><p>{integration.lastSyncAt ? formatDate(integration.lastSyncAt) : 'Never'}</p></div>
+ [2m290[0m |                   <div><p className="text-secondary-500">Last Success</p><p>{integration.lastSuccessAt ? formatDate(integration.lastSuccessAt) : 'Never'}</p></div>
+ [2m291[0m |                   {integration.lastFailureAt && (
+ [2m292[0m |                     <div className="col-span-2 text-danger-600">
+ [2m293[0m |                       <p className="text-secondary-500">Last Error</p>
+ [2m294[0m |                       <p className="text-sm">{integration.lastError}</p>
+ [2m295[0m |                     </div>
+ [2m296[0m |                   )}
+ [2m297[0m |                 </div>
+ [2m298[0m |                 <div className="flex gap-2 pt-2 border-t border-secondary-100">
+ [2m299[0m |                   <Button variant="outline" size="sm" className="flex-1" onClick={() => handleTestIntegration(integration.id)} isLoading={testLoading === integration.id}>
+ [2m300[0m |                     <Wifi className="w-4 h-4 mr-1" />Test
+ [2m301[0m |                   </Button>
+ [2m302[0m |                   <Button variant="primary" size="sm" className="flex-1" onClick={() => handleSyncIntegration(integration.id)} isLoading={syncLoading === integration.id}>
+ [2m303[0m |                     <Database className="w-4 h-4 mr-1" />Sync
+ [2m304[0m |                   </Button>
+ [2m305[0m |                   <Button variant="ghost" size="sm" onClick={() => handleDeleteIntegration(integration.id)}>
+ [2m306[0m |                     <Trash2 className="w-4 h-4" />
+ [2m307[0m |                   </Button>
+ [2m308[0m |                 </div>
+ [2m309[0m |               </CardContent>
+ [2m310[0m |             </Card>
+ [2m311[0m |           ))}
+ [2m312[0m |           {integrations.length === 0 && (
+ [2m313[0m |             <Card variant="bordered" className="col-span-full text-center py-12">
+ [2m314[0m |               <Link2 className="w-12 h-12 mx-auto text-secondary-300 mb-4" />
+ [2m315[0m |               <h3 className="text-lg font-medium text-secondary-900 mb-2">No Integrations</h3>
+ [2m316[0m |               <p className="text-secondary-500 mb-4">Connect Shopify, WhatsApp, Courier, or Meta Ads</p>
+ [2m317[0m |               <Button onClick={() => router.push('/settings/integrations/new')}>
+ [2m318[0m |                 <Plus className="w-4 h-4 mr-2" />Add Integration
+ [2m319[0m |               </Button>
+ [2m320[0m |             </Card>
+ [2m321[0m |           )}
+ [2m322[0m |         </div>
+ [2m323[0m |       </TabPanel>
+ [2m324[0m | 
+ [2m325[0m |       <TabPanel value="roles" activeTab={activeTab}>
+ [2m326[0m |         <Card>
+ [2m327[0m |           <CardHeader>
+ [2m328[0m |             <CardTitle>Role Permissions</CardTitle>
+ [2m329[0m |           </CardHeader>
+ [2m330[0m |           <CardContent>
+ [2m331[0m |             <div className="overflow-x-auto">
+ [2m332[0m |               <table className="w-full text-sm">
+ [2m333[0m |                 <thead className="bg-secondary-50">
+ [2m334[0m |                   <tr>
+ [2m335[0m |                     <th className="px-4 py-3 text-left font-semibold">Permission</th>
+ [2m336[0m |                     {USER_ROLE_OPTIONS.map(role => (
+ [2m337[0m |                       <th key={role.value} className="px-4 py-3 text-center font-semibold">{role.label}</th>
+ [2m338[0m |                     ))}
+ [2m339[0m |                   </tr>
+ [2m340[0m |                 </thead>
+ [2m341[0m |                 <tbody className="divide-y divide-secondary-100">
+ [2m342[0m |                   <tr>
+ [2m343[0m |                     <td className="px-4 py-3 font-medium">All Access</td>
+ [2m344[0m |                     {USER_ROLE_OPTIONS.map(role => (
+ [2m345[0m |                       <td key={role.value} className="px-4 py-3 text-center">
+ [2m346[0m |                         {role.value === 'SUPER_ADMIN' ? <CheckCircle className="w-5 h-5 text-success-600 mx-auto" /> : '-'}
+ [2m347[0m |                       </td>
+ [2m348[0m |                     ))}
+ [2m349[0m |                   </tr>
+ [2m350[0m |                   <tr>
+ [2m351[0m |                     <td className="px-4 py-3 font-medium">Orders Management</td>
+ [2m352[0m |                     {USER_ROLE_OPTIONS.map(role => (
+ [2m353[0m |                       <td key={role.value} className="px-4 py-3 text-center">
+ [2m354[0m |                         {['SUPER_ADMIN', 'ADMIN', 'ORDER_MANAGER'].includes(role.value) ? <CheckCircle className="w-5 h-5 text-success-600 mx-auto" /> : '-'}
+ [2m355[0m |                       </td>
+ [2m356[0m |                     ))}
+ [2m357[0m |                   </tr>
+ [2m358[0m |                   <tr>
+ [2m359[0m |                     <td className="px-4 py-3 font-medium">Financial/Accounting</td>
+ [2m360[0m |                     {USER_ROLE_OPTIONS.map(role => (
+ [2m361[0m |                       <td key={role.value} className="px-4 py-3 text-center">
+ [2m362[0m |                         {['SUPER_ADMIN', 'ADMIN', 'ACCOUNTS'].includes(role.value) ? <CheckCircle className="w-5 h-5 text-success-600 mx-auto" /> : '-'}
+ [2m363[0m |                       </td>
+ [2m364[0m |                     ))}
+ [2m365[0m |                   </tr>
+ [2m366[0m |                   <tr>
+ [2m367[0m |                     <td className="px-4 py-3 font-medium">Inventory/Stock</td>
+ [2m368[0m |                     {USER_ROLE_OPTIONS.map(role => (
+ [2m369[0m |                       <td key={role.value} className="px-4 py-3 text-center">
+ [2m370[0m |                         {['SUPER_ADMIN', 'ADMIN', 'STOCK_MANAGER'].includes(role.value) ? <CheckCircle className="w-5 h-5 text-success-600 mx-auto" /> : '-'}
+ [2m371[0m |                       </td>
+ [2m372[0m |                     ))}
+ [2m373[0m |                   </tr>
+ [2m374[0m |                   <tr>
+ [2m375[0m |                     <td className="px-4 py-3 font-medium">User Management</td>
+ [2m376[0m |                     {USER_ROLE_OPTIONS.map(role => (
+ [2m377[0m |                       <td key={role.value} className="px-4 py-3 text-center">
+ [2m378[0m |                         {['SUPER_ADMIN', 'ADMIN'].includes(role.value) ? <CheckCircle className="w-5 h-5 text-success-600 mx-auto" /> : '-'}
+ [2m379[0m |                       </td>
+ [2m380[0m |                     ))}
+ [2m381[0m |                   </tr>
+ [2m382[0m |                 </tbody>
+ [2m383[0m |               </table>
+ [2m384[0m |             </div>
+ [2m385[0m |           </CardContent>
+ [2m386[0m |         </Card>
+ [2m387[0m |       </TabPanel>
+ [2m388[0m |     </div>
+ [2m389[0m |   )
+ [2m390[0m | }
+ [2m391[0m | 
+ [2m392[0m | import { MessageSquare, Truck } from 'lucide-react'
+     : [33;1m         ^^^^^^|^^^^^^[0m
+     :                [33;1m`-- [33;1m`MessageSquare` redefined here[0m[0m
+     `----
+
+  [31mx[0m the name `Truck` is defined multiple times
+     ,-[[36;1;4mC:\Users\hp\Desktop\software\business-management-system\src\app\settings\page.tsx[0m:12:1]
+ [2m 12[0m | import { Dropdown, DropdownItem } from '@/components/ui/Dropdown'
+ [2m 13[0m | import { Tabs, TabPanel } from '@/components/ui/Tabs'
+ [2m 14[0m | import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card'
+ [2m 15[0m | import { Loader2, Plus, Search, Download, Eye, Edit, Users, Building2, PlugZap, CreditCard, Shield, Database, Globe, Bell, MoreVertical, Trash2, Save, TestTube, Link2, Key, Wifi, AlertCircle, CheckCircle, ShoppingCart, MessageSquare, Truck, BarChart3 } from 'lucide-react'
+     : [31;1m                                                                                                                                                                                                                                          ^^|^^[0m
+     :                                                                                                                                                                                                                                             [31;1m`-- [31;1mprevious definition of `Truck` here[0m[0m
+ [2m 16[0m | import { toast } from '@/components/ui/Toast'
+ [2m 17[0m | import { useToast } from '@/components/ui/Toast'
+ [2m 18[0m | import { USER_ROLE_OPTIONS, INTEGRATION_TYPE_OPTIONS } from '@/types'
+ [2m 19[0m | import { businessSettingsSchema } from '@/lib/validations/schemas'
+ [2m 20[0m | 
+ [2m 21[0m | const SETTINGS_TABS = [
+ [2m 22[0m |   { value: 'business', label: 'Business', icon: Building2 },
+ [2m 23[0m |   { value: 'users', label: 'Users', icon: Users },
+ [2m 24[0m |   { value: 'integrations', label: 'Integrations', icon: Link2 },
+ [2m 25[0m |   { value: 'roles', label: 'Roles & Permissions', icon: Shield },
+ [2m 26[0m | ]
+ [2m 27[0m | 
+ [2m 28[0m | export default function SettingsPage() {
+ [2m 29[0m |   const router = useRouter()
+ [2m 30[0m |   const { addToast } = useToast()
+ [2m 31[0m |   const [activeTab, setActiveTab] = useState('business')
+ [2m 32[0m |   const [loading, setLoading] = useState(false)
+ [2m 33[0m |   const [settings, setSettings] = useState<any>(null)
+ [2m 34[0m |   const [users, setUsers] = useState<any[]>([])
+ [2m 35[0m |   const [integrations, setIntegrations] = useState<any[]>([])
+ [2m 36[0m |   const [testLoading, setTestLoading] = useState<string | null>(null)
+ [2m 37[0m |   const [syncLoading, setSyncLoading] = useState<string | null>(null)
+ [2m 38[0m | 
+ [2m 39[0m |   // Business Settings Form State
+ [2m 40[0m |   const [formData, setFormData] = useState({
+ [2m 41[0m |     businessName: '',
+ [2m 42[0m |     logo: '',
+ [2m 43[0m |     currency: 'PKR',
+ [2m 44[0m |     currencySymbol: 'Rs.',
+ [2m 45[0m |     timezone: 'Asia/Karachi',
+ [2m 46[0m |     dateFormat: 'DD/MM/YYYY',
+ [2m 47[0m |     taxNumber: '',
+ [2m 48[0m |     taxRate: 0,
+ [2m 49[0m |     lowStockThreshold: 10,
+ [2m 50[0m |     address: '',
+ [2m 51[0m |     phone: '',
+ [2m 52[0m |     email: '',
+ [2m 53[0m |     website: '',
+ [2m 54[0m |   })
+ [2m 55[0m | 
+ [2m 56[0m |   const fetchSettings = async () => {
+ [2m 57[0m |     try {
+ [2m 58[0m |       const response = await fetch('/api/settings')
+ [2m 59[0m |       const data = await response.json()
+ [2m 60[0m |       if (data.success) {
+ [2m 61[0m |         setSettings(data.data)
+ [2m 62[0m |         setFormData(data.data)
+ [2m 63[0m |       }
+ [2m 64[0m |     } catch (error) {
+ [2m 65[0m |       console.error('Failed to fetch settings')
+ [2m 66[0m |     }
+ [2m 67[0m |   }
+ [2m 68[0m | 
+ [2m 69[0m |   const fetchUsers = async () => {
+ [2m 70[0m |     try {
+ [2m 71[0m |       const response = await fetch('/api/users')
+ [2m 72[0m |       const data = await response.json()
+ [2m 73[0m |       if (data.success) setUsers(data.data)
+ [2m 74[0m |     } catch (error) {
+ [2m 75[0m |       console.error('Failed to fetch users')
+ [2m 76[0m |     }
+ [2m 77[0m |   }
+ [2m 78[0m | 
+ [2m 79[0m |   const fetchIntegrations = async () => {
+ [2m 80[0m |     try {
+ [2m 81[0m |       const response = await fetch('/api/integrations')
+ [2m 82[0m |       const data = await response.json()
+ [2m 83[0m |       if (data.success) setIntegrations(data.data)
+ [2m 84[0m |     } catch (error) {
+ [2m 85[0m |       console.error('Failed to fetch integrations')
+ [2m 86[0m |     }
+ [2m 87[0m |   }
+ [2m 88[0m | 
+ [2m 89[0m |   useEffect(() => {
+ [2m 90[0m |     fetchSettings()
+ [2m 91[0m |     fetchUsers()
+ [2m 92[0m |     fetchIntegrations()
+ [2m 93[0m |   }, [])
+ [2m 94[0m | 
+ [2m 95[0m |   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+ [2m 96[0m |     const { name, value, type } = e.target
+ [2m 97[0m |     setFormData(prev => ({ ...prev, [name]: type === 'number' ? parseFloat(value) || 0 : value }))
+ [2m 98[0m |   }
+ [2m 99[0m | 
+ [2m100[0m |   const handleSaveSettings = async () => {
+ [2m101[0m |     setLoading(true)
+ [2m102[0m |     try {
+ [2m103[0m |       const response = await fetch('/api/settings', {
+ [2m104[0m |         method: 'PUT',
+ [2m105[0m |         headers: { 'Content-Type': 'application/json' },
+ [2m106[0m |         body: JSON.stringify(formData),
+ [2m107[0m |       })
+ [2m108[0m |       const data = await response.json()
+ [2m109[0m |       if (data.success) {
+ [2m110[0m |         addToast({ type: 'success', title: 'Settings saved' })
+ [2m111[0m |         setSettings(data.data)
+ [2m112[0m |       } else {
+ [2m113[0m |         addToast({ type: 'error', title: 'Failed to save', message: data.error })
+ [2m114[0m |       }
+ [2m115[0m |     } catch {
+ [2m116[0m |       addToast({ type: 'error', title: 'Error', message: 'Failed to save settings' })
+ [2m117[0m |     } finally {
+ [2m118[0m |       setLoading(false)
+ [2m119[0m |     }
+ [2m120[0m |   }
+ [2m121[0m | 
+ [2m122[0m |   const handleTestIntegration = async (id: string) => {
+ [2m123[0m |     setTestLoading(id)
+ [2m124[0m |     try {
+ [2m125[0m |       const response = await fetch(`/api/integrations/${id}`, {
+ [2m126[0m |         method: 'POST',
+ [2m127[0m |         headers: { 'Content-Type': 'application/json' },
+ [2m128[0m |         body: JSON.stringify({ action: 'test' }),
+ [2m129[0m |       })
+ [2m130[0m |       const data = await response.json()
+ [2m131[0m |       if (data.success) {
+ [2m132[0m |         addToast({ type: 'success', title: 'Connection test', message: data.data.connected ? 'Connected successfully' : 'Connection failed' })
+ [2m133[0m |         fetchIntegrations()
+ [2m134[0m |       } else {
+ [2m135[0m |         addToast({ type: 'error', title: 'Test failed', message: data.error })
+ [2m136[0m |       }
+ [2m137[0m |     } catch {
+ [2m138[0m |       addToast({ type: 'error', title: 'Error', message: 'Failed to test connection' })
+ [2m139[0m |     } finally {
+ [2m140[0m |       setTestLoading(null)
+ [2m141[0m |     }
+ [2m142[0m |   }
+ [2m143[0m | 
+ [2m144[0m |   const handleSyncIntegration = async (id: string) => {
+ [2m145[0m |     setSyncLoading(id)
+ [2m146[0m |     try {
+ [2m147[0m |       const response = await fetch(`/api/integrations/${id}`, {
+ [2m148[0m |         method: 'POST',
+ [2m149[0m |         headers: { 'Content-Type': 'application/json' },
+ [2m150[0m |         body: JSON.stringify({ action: 'sync' }),
+ [2m151[0m |       })
+ [2m152[0m |       const data = await response.json()
+ [2m153[0m |       if (data.success) {
+ [2m154[0m |         addToast({ type: 'success', title: 'Sync completed', message: `Synced ${data.data.synced} records` })
+ [2m155[0m |         fetchIntegrations()
+ [2m156[0m |       } else {
+ [2m157[0m |         addToast({ type: 'error', title: 'Sync failed', message: data.error })
+ [2m158[0m |       }
+ [2m159[0m |     } catch {
+ [2m160[0m |       addToast({ type: 'error', title: 'Error', message: 'Failed to sync' })
+ [2m161[0m |     } finally {
+ [2m162[0m |       setSyncLoading(null)
+ [2m163[0m |     }
+ [2m164[0m |   }
+ [2m165[0m | 
+ [2m166[0m |   const handleDeleteIntegration = async (id: string) => {
+ [2m167[0m |     if (!confirm('Are you sure you want to delete this integration?')) return
+ [2m168[0m |     try {
+ [2m169[0m |       const response = await fetch(`/api/integrations/${id}`, { method: 'DELETE' })
+ [2m170[0m |       const data = await response.json()
+ [2m171[0m |       if (data.success) {
+ [2m172[0m |         addToast({ type: 'success', title: 'Integration deleted' })
+ [2m173[0m |         fetchIntegrations()
+ [2m174[0m |       } else {
+ [2m175[0m |         addToast({ type: 'error', title: 'Failed to delete', message: data.error })
+ [2m176[0m |       }
+ [2m177[0m |     } catch {
+ [2m178[0m |       addToast({ type: 'error', title: 'Error', message: 'Failed to delete integration' })
+ [2m179[0m |     }
+ [2m180[0m |   }
+ [2m181[0m | 
+ [2m182[0m |   return (
+ [2m183[0m |     <div className="space-y-6">
+ [2m184[0m |       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+ [2m185[0m |         <div>
+ [2m186[0m |           <h1 className="text-2xl font-bold text-secondary-900">Settings</h1>
+ [2m187[0m |           <p className="text-secondary-500 mt-1">Configure business settings, users, and integrations</p>
+ [2m188[0m |         </div>
+ [2m189[0m |       </div>
+ [2m190[0m | 
+ [2m191[0m |       <Tabs tabs={SETTINGS_TABS} activeTab={activeTab} onChange={setActiveTab} variant="line" className="mb-6" />
+ [2m192[0m | 
+ [2m193[0m |       <TabPanel value="business" activeTab={activeTab}>
+ [2m194[0m |         <Card>
+ [2m195[0m |           <CardHeader>
+ [2m196[0m |             <CardTitle>Business Information</CardTitle>
+ [2m197[0m |           </CardHeader>
+ [2m198[0m |           <CardContent className="space-y-6">
+ [2m199[0m |             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+ [2m200[0m |               <Input label="Business Name" name="businessName" value={formData.businessName} onChange={handleInputChange} required />
+ [2m201[0m |               <Input label="Currency" name="currency" value={formData.currency} onChange={handleInputChange} />
+ [2m202[0m |               <Input label="Currency Symbol" name="currencySymbol" value={formData.currencySymbol} onChange={handleInputChange} />
+ [2m203[0m |               <Input label="Timezone" name="timezone" value={formData.timezone} onChange={handleInputChange} />
+ [2m204[0m |               <Input label="Date Format" name="dateFormat" value={formData.dateFormat} onChange={handleInputChange} />
+ [2m205[0m |               <Input label="Tax Number" name="taxNumber" value={formData.taxNumber} onChange={handleInputChange} />
+ [2m206[0m |               <Input label="Tax Rate (%)" name="taxRate" type="number" step="0.01" value={formData.taxRate} onChange={handleInputChange} />
+ [2m207[0m |               <Input label="Low Stock Threshold" name="lowStockThreshold" type="number" value={formData.lowStockThreshold} onChange={handleInputChange} />
+ [2m208[0m |               <Input label="Phone" name="phone" value={formData.phone} onChange={handleInputChange} />
+ [2m209[0m |               <Input label="Email" name="email" type="email" value={formData.email} onChange={handleInputChange} />
+ [2m210[0m |               <Input label="Website" name="website" value={formData.website} onChange={handleInputChange} />
+ [2m211[0m |               <Input label="Logo URL" name="logo" value={formData.logo} onChange={handleInputChange} />
+ [2m212[0m |             </div>
+ [2m213[0m |             <div className="flex justify-end">
+ [2m214[0m |               <Button onClick={handleSaveSettings} isLoading={loading}>
+ [2m215[0m |                 <Save className="w-4 h-4 mr-2" />Save Settings
+ [2m216[0m |               </Button>
+ [2m217[0m |             </div>
+ [2m218[0m |           </CardContent>
+ [2m219[0m |         </Card>
+ [2m220[0m |       </TabPanel>
+ [2m221[0m | 
+ [2m222[0m |       <TabPanel value="users" activeTab={activeTab}>
+ [2m223[0m |         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-4">
+ [2m224[0m |           <h2 className="text-xl font-semibold">User Management</h2>
+ [2m225[0m |           <Button onClick={() => router.push('/settings/users/new')}>
+ [2m226[0m |             <Plus className="w-4 h-4 mr-2" />Add User
+ [2m227[0m |           </Button>
+ [2m228[0m |         </div>
+ [2m229[0m |         <Card>
+ [2m230[0m |           <CardContent className="p-0">
+ [2m231[0m |             <DataTable
+ [2m232[0m |               columns={[
+ [2m233[0m |                 { key: 'name', header: 'Name', width: '180px' },
+ [2m234[0m |                 { key: 'email', header: 'Email', width: '220px' },
+ [2m235[0m |                 { key: 'role', header: 'Role', width: '150px', render: (row) => <Badge variant={row.role === 'SUPER_ADMIN' ? 'danger' : row.role === 'ADMIN' ? 'primary' : 'secondary'}>{row.role}</Badge> },
+ [2m236[0m |                 { key: 'isActive', header: 'Status', width: '100px', render: (row) => <Badge variant={row.isActive ? 'success' : 'secondary'}>{row.isActive ? 'Active' : 'Inactive'}</Badge> },
+ [2m237[0m |                 { key: 'lastLoginAt', header: 'Last Login', width: '150px', render: (row) => row.lastLoginAt ? formatDate(row.lastLoginAt) : 'Never' },
+ [2m238[0m |                 { key: 'actions', header: 'Actions', width: '120px', render: (row) => (
+ [2m239[0m |                   <Dropdown trigger={<Button variant="ghost" size="icon"><MoreVertical className="w-4 h-4" /></Button>} items={[
+ [2m240[0m |                     { label: 'Edit', value: 'edit', icon: <Edit className="w-4 h-4" />, onClick: () => router.push(`/settings/users/${row.id}/edit`) },
+ [2m241[0m |                     { label: 'Reset Password', value: 'password', icon: <Key className="w-4 h-4" />, onClick: () => router.push(`/settings/users/${row.id}/password`) },
+ [2m242[0m |                   ]} />
+ [2m243[0m |                 )},
+ [2m244[0m |               ]}
+ [2m245[0m |               data={users}
+ [2m246[0m |               keyExtractor={(row) => row.id}
+ [2m247[0m |               loading={loading}
+ [2m248[0m |               emptyMessage="No users found"
+ [2m249[0m |               striped
+ [2m250[0m |               hoverable
+ [2m251[0m |             />
+ [2m252[0m |           </CardContent>
+ [2m253[0m |         </Card>
+ [2m254[0m |       </TabPanel>
+ [2m255[0m | 
+ [2m256[0m |       <TabPanel value="integrations" activeTab={activeTab}>
+ [2m257[0m |         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-4">
+ [2m258[0m |           <h2 className="text-xl font-semibold">Integrations</h2>
+ [2m259[0m |           <Button onClick={() => router.push('/settings/integrations/new')}>
+ [2m260[0m |             <Plus className="w-4 h-4 mr-2" />Add Integration
+ [2m261[0m |           </Button>
+ [2m262[0m |         </div>
+ [2m263[0m |         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+ [2m264[0m |           {integrations.map((integration) => (
+ [2m265[0m |             <Card key={integration.id} variant="bordered" className="h-full">
+ [2m266[0m |               <CardHeader className="flex items-center justify-between">
+ [2m267[0m |                 <div className="flex items-center gap-3">
+ [2m268[0m |                   <div className={`p-3 rounded-lg bg-${integration.type === 'SHOPIFY' ? 'purple' : integration.type === 'WHATSAPP' ? 'green' : integration.type === 'COURIER' ? 'blue' : 'orange'}-100`}>
+ [2m269[0m |                     {integration.type === 'SHOPIFY' && <ShoppingCart className="w-5 h-5" />}
+ [2m270[0m |                     {integration.type === 'WHATSAPP' && <MessageSquare className="w-5 h-5" />}
+ [2m271[0m |                     {integration.type === 'COURIER' && <Truck className="w-5 h-5" />}
+ [2m272[0m |                     {integration.type === 'META_ADS' && <BarChart3 className="w-5 h-5" />}
+ [2m273[0m |                   </div>
+ [2m274[0m |                   <div>
+ [2m275[0m |                     <h4 className="font-semibold">{integration.name}</h4>
+ [2m276[0m |                     <p className="text-sm text-secondary-500">{integration.type}</p>
+ [2m277[0m |                   </div>
+ [2m278[0m |                 </div>
+ [2m279[0m |                 <Badge variant={integration.isConnected ? 'success' : 'secondary'}>
+ [2m280[0m |                   {integration.isConnected ? (
+ [2m281[0m |                     <> <CheckCircle className="w-4 h-4 inline mr-1" /> Connected </>
+ [2m282[0m |                   ) : (
+ [2m283[0m |                     <> <AlertCircle className="w-4 h-4 inline mr-1" /> Not Connected </>
+ [2m284[0m |                   )}
+ [2m285[0m |                 </Badge>
+ [2m286[0m |               </CardHeader>
+ [2m287[0m |               <CardContent className="space-y-3">
+ [2m288[0m |                 <div className="grid grid-cols-2 gap-2 text-sm">
+ [2m289[0m |                   <div><p className="text-secondary-500">Last Sync</p><p>{integration.lastSyncAt ? formatDate(integration.lastSyncAt) : 'Never'}</p></div>
+ [2m290[0m |                   <div><p className="text-secondary-500">Last Success</p><p>{integration.lastSuccessAt ? formatDate(integration.lastSuccessAt) : 'Never'}</p></div>
+ [2m291[0m |                   {integration.lastFailureAt && (
+ [2m292[0m |                     <div className="col-span-2 text-danger-600">
+ [2m293[0m |                       <p className="text-secondary-500">Last Error</p>
+ [2m294[0m |                       <p className="text-sm">{integration.lastError}</p>
+ [2m295[0m |                     </div>
+ [2m296[0m |                   )}
+ [2m297[0m |                 </div>
+ [2m298[0m |                 <div className="flex gap-2 pt-2 border-t border-secondary-100">
+ [2m299[0m |                   <Button variant="outline" size="sm" className="flex-1" onClick={() => handleTestIntegration(integration.id)} isLoading={testLoading === integration.id}>
+ [2m300[0m |                     <Wifi className="w-4 h-4 mr-1" />Test
+ [2m301[0m |                   </Button>
+ [2m302[0m |                   <Button variant="primary" size="sm" className="flex-1" onClick={() => handleSyncIntegration(integration.id)} isLoading={syncLoading === integration.id}>
+ [2m303[0m |                     <Database className="w-4 h-4 mr-1" />Sync
+ [2m304[0m |                   </Button>
+ [2m305[0m |                   <Button variant="ghost" size="sm" onClick={() => handleDeleteIntegration(integration.id)}>
+ [2m306[0m |                     <Trash2 className="w-4 h-4" />
+ [2m307[0m |                   </Button>
+ [2m308[0m |                 </div>
+ [2m309[0m |               </CardContent>
+ [2m310[0m |             </Card>
+ [2m311[0m |           ))}
+ [2m312[0m |           {integrations.length === 0 && (
+ [2m313[0m |             <Card variant="bordered" className="col-span-full text-center py-12">
+ [2m314[0m |               <Link2 className="w-12 h-12 mx-auto text-secondary-300 mb-4" />
+ [2m315[0m |               <h3 className="text-lg font-medium text-secondary-900 mb-2">No Integrations</h3>
+ [2m316[0m |               <p className="text-secondary-500 mb-4">Connect Shopify, WhatsApp, Courier, or Meta Ads</p>
+ [2m317[0m |               <Button onClick={() => router.push('/settings/integrations/new')}>
+ [2m318[0m |                 <Plus className="w-4 h-4 mr-2" />Add Integration
+ [2m319[0m |               </Button>
+ [2m320[0m |             </Card>
+ [2m321[0m |           )}
+ [2m322[0m |         </div>
+ [2m323[0m |       </TabPanel>
+ [2m324[0m | 
+ [2m325[0m |       <TabPanel value="roles" activeTab={activeTab}>
+ [2m326[0m |         <Card>
+ [2m327[0m |           <CardHeader>
+ [2m328[0m |             <CardTitle>Role Permissions</CardTitle>
+ [2m329[0m |           </CardHeader>
+ [2m330[0m |           <CardContent>
+ [2m331[0m |             <div className="overflow-x-auto">
+ [2m332[0m |               <table className="w-full text-sm">
+ [2m333[0m |                 <thead className="bg-secondary-50">
+ [2m334[0m |                   <tr>
+ [2m335[0m |                     <th className="px-4 py-3 text-left font-semibold">Permission</th>
+ [2m336[0m |                     {USER_ROLE_OPTIONS.map(role => (
+ [2m337[0m |                       <th key={role.value} className="px-4 py-3 text-center font-semibold">{role.label}</th>
+ [2m338[0m |                     ))}
+ [2m339[0m |                   </tr>
+ [2m340[0m |                 </thead>
+ [2m341[0m |                 <tbody className="divide-y divide-secondary-100">
+ [2m342[0m |                   <tr>
+ [2m343[0m |                     <td className="px-4 py-3 font-medium">All Access</td>
+ [2m344[0m |                     {USER_ROLE_OPTIONS.map(role => (
+ [2m345[0m |                       <td key={role.value} className="px-4 py-3 text-center">
+ [2m346[0m |                         {role.value === 'SUPER_ADMIN' ? <CheckCircle className="w-5 h-5 text-success-600 mx-auto" /> : '-'}
+ [2m347[0m |                       </td>
+ [2m348[0m |                     ))}
+ [2m349[0m |                   </tr>
+ [2m350[0m |                   <tr>
+ [2m351[0m |                     <td className="px-4 py-3 font-medium">Orders Management</td>
+ [2m352[0m |                     {USER_ROLE_OPTIONS.map(role => (
+ [2m353[0m |                       <td key={role.value} className="px-4 py-3 text-center">
+ [2m354[0m |                         {['SUPER_ADMIN', 'ADMIN', 'ORDER_MANAGER'].includes(role.value) ? <CheckCircle className="w-5 h-5 text-success-600 mx-auto" /> : '-'}
+ [2m355[0m |                       </td>
+ [2m356[0m |                     ))}
+ [2m357[0m |                   </tr>
+ [2m358[0m |                   <tr>
+ [2m359[0m |                     <td className="px-4 py-3 font-medium">Financial/Accounting</td>
+ [2m360[0m |                     {USER_ROLE_OPTIONS.map(role => (
+ [2m361[0m |                       <td key={role.value} className="px-4 py-3 text-center">
+ [2m362[0m |                         {['SUPER_ADMIN', 'ADMIN', 'ACCOUNTS'].includes(role.value) ? <CheckCircle className="w-5 h-5 text-success-600 mx-auto" /> : '-'}
+ [2m363[0m |                       </td>
+ [2m364[0m |                     ))}
+ [2m365[0m |                   </tr>
+ [2m366[0m |                   <tr>
+ [2m367[0m |                     <td className="px-4 py-3 font-medium">Inventory/Stock</td>
+ [2m368[0m |                     {USER_ROLE_OPTIONS.map(role => (
+ [2m369[0m |                       <td key={role.value} className="px-4 py-3 text-center">
+ [2m370[0m |                         {['SUPER_ADMIN', 'ADMIN', 'STOCK_MANAGER'].includes(role.value) ? <CheckCircle className="w-5 h-5 text-success-600 mx-auto" /> : '-'}
+ [2m371[0m |                       </td>
+ [2m372[0m |                     ))}
+ [2m373[0m |                   </tr>
+ [2m374[0m |                   <tr>
+ [2m375[0m |                     <td className="px-4 py-3 font-medium">User Management</td>
+ [2m376[0m |                     {USER_ROLE_OPTIONS.map(role => (
+ [2m377[0m |                       <td key={role.value} className="px-4 py-3 text-center">
+ [2m378[0m |                         {['SUPER_ADMIN', 'ADMIN'].includes(role.value) ? <CheckCircle className="w-5 h-5 text-success-600 mx-auto" /> : '-'}
+ [2m379[0m |                       </td>
+ [2m380[0m |                     ))}
+ [2m381[0m |                   </tr>
+ [2m382[0m |                 </tbody>
+ [2m383[0m |               </table>
+ [2m384[0m |             </div>
+ [2m385[0m |           </CardContent>
+ [2m386[0m |         </Card>
+ [2m387[0m |       </TabPanel>
+ [2m388[0m |     </div>
+ [2m389[0m |   )
+ [2m390[0m | }
+ [2m391[0m | 
+ [2m392[0m | import { MessageSquare, Truck } from 'lucide-react'
+     : [33;1m                        ^^|^^[0m
+     :                           [33;1m`-- [33;1m`Truck` redefined here[0m[0m
+     `----
+
+Import trace for requested module:
+./src/app/settings/page.tsx
+
+
+> Build failed because of webpack errors

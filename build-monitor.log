@@ -1,0 +1,178 @@
+  ▲ Next.js 14.2.35
+  - Environments: .env
+
+   Creating an optimized production build ...
+ ⚠ Compiled with warnings
+
+./node_modules/bcryptjs/dist/bcrypt.js
+A Node.js API is used (process.nextTick at line: 351) which is not supported in the Edge Runtime.
+Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+
+Import trace for requested module:
+./node_modules/bcryptjs/dist/bcrypt.js
+./src/lib/auth/index.ts
+
+./node_modules/bcryptjs/dist/bcrypt.js
+A Node.js API is used (setImmediate at line: 352) which is not supported in the Edge Runtime.
+Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+
+Import trace for requested module:
+./node_modules/bcryptjs/dist/bcrypt.js
+./src/lib/auth/index.ts
+
+./node_modules/bcryptjs/dist/bcrypt.js
+A Node.js API is used (setImmediate at line: 352) which is not supported in the Edge Runtime.
+Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+
+Import trace for requested module:
+./node_modules/bcryptjs/dist/bcrypt.js
+./src/lib/auth/index.ts
+
+./node_modules/bcryptjs/dist/bcrypt.js
+A Node.js API is used (process.nextTick at line: 352) which is not supported in the Edge Runtime.
+Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+
+Import trace for requested module:
+./node_modules/bcryptjs/dist/bcrypt.js
+./src/lib/auth/index.ts
+
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+
+Failed to compile.
+
+./src/app/admin/integrations/page.tsx
+364:20  Error: 'Save' is not defined.  react/jsx-no-undef
+
+./src/app/api/audit-logs/route.ts
+28:5  Error: Do not assign to the variable `module`. See: https://nextjs.org/docs/messages/no-assign-module-variable  @next/next/no-assign-module-variable
+
+./src/app/audit-logs/page.tsx
+96:6  Warning: React Hook useEffect has a missing dependency: 'fetchLogs'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+104:6  Warning: React Hook useEffect has a missing dependency: 'filters'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+159:10  Error: 'Button' is not defined.  react/jsx-no-undef
+
+./src/app/auth/login/page.tsx
+120:18  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
+./src/app/couriers/page.tsx
+66:6  Warning: React Hook useEffect has a missing dependency: 'fetchCouriers'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/customers/page.tsx
+68:6  Warning: React Hook useEffect has a missing dependency: 'fetchCustomers'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+76:6  Warning: React Hook useEffect has missing dependencies: 'filters' and 'router'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/electricity/page.tsx
+69:6  Warning: React Hook useEffect has a missing dependency: 'fetchBills'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+77:6  Warning: React Hook useEffect has missing dependencies: 'filters' and 'router'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/electricity/[id]/edit/page.tsx
+93:6  Warning: React Hook useEffect has a missing dependency: 'fetchElectricity'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/expenses/page.tsx
+94:6  Warning: React Hook useEffect has a missing dependency: 'fetchData'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+102:6  Warning: React Hook useEffect has missing dependencies: 'filters' and 'router'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/expenses/[id]/edit/page.tsx
+92:6  Warning: React Hook useEffect has a missing dependency: 'fetchExpense'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/inventory/page.tsx
+66:6  Warning: React Hook useEffect has a missing dependency: 'fetchVariants'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+74:6  Warning: React Hook useEffect has missing dependencies: 'filters' and 'router'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/marketing/page.tsx
+82:6  Warning: React Hook useEffect has a missing dependency: 'fetchCampaigns'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+90:6  Warning: React Hook useEffect has missing dependencies: 'filters' and 'router'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/marketing/[id]/edit/page.tsx
+103:6  Warning: React Hook useEffect has a missing dependency: 'fetchMarketing'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/notifications/page.tsx
+64:6  Warning: React Hook useEffect has a missing dependency: 'fetchNotifications'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/orders/page.tsx
+84:6  Warning: React Hook useEffect has a missing dependency: 'fetchOrders'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+92:6  Warning: React Hook useEffect has missing dependencies: 'filters' and 'router'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/payments/page.tsx
+83:6  Warning: React Hook useEffect has a missing dependency: 'fetchPayments'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+91:6  Warning: React Hook useEffect has missing dependencies: 'filters' and 'router'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/products/page.tsx
+80:6  Warning: React Hook useEffect has a missing dependency: 'fetchProducts'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+88:6  Warning: React Hook useEffect has missing dependencies: 'filters' and 'router'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+266:19  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/app/products/[id]/edit/page.tsx
+101:6  Warning: React Hook useEffect has a missing dependency: 'fetchData'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/products/[id]/variants/page.tsx
+79:6  Warning: React Hook useEffect has a missing dependency: 'fetchData'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+87:6  Warning: React Hook useEffect has missing dependencies: 'filters', 'productId', and 'router'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/products/[id]/variants/[variantId]/edit/page.tsx
+91:6  Warning: React Hook useEffect has a missing dependency: 'fetchVariant'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/purchases/new/page.tsx
+107:6  Warning: React Hook useEffect has a missing dependency: 'variants'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+194:14  Error: 'Textarea' is not defined.  react/jsx-no-undef
+
+./src/app/purchases/page.tsx
+83:6  Warning: React Hook useEffect has a missing dependency: 'fetchPurchases'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+91:6  Warning: React Hook useEffect has missing dependencies: 'filters' and 'router'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/purchases/[id]/edit/page.tsx
+152:6  Warning: React Hook useEffect has a missing dependency: 'fetchPurchase'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+160:6  Warning: React Hook useEffect has a missing dependency: 'variants'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/reports/page.tsx
+178:16  Error: 'Plus' is not defined.  react/jsx-no-undef
+
+./src/app/returns/new/page.tsx
+138:6  Warning: React Hook useEffect has missing dependencies: 'control', 'setValue', and 'watch'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+138:7  Warning: React Hook useEffect has a complex expression in the dependency array. Extract it to a separate variable so it can be statically checked.  react-hooks/exhaustive-deps
+
+./src/app/returns/page.tsx
+69:6  Warning: React Hook useEffect has a missing dependency: 'fetchReturns'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+77:6  Warning: React Hook useEffect has missing dependencies: 'filters' and 'router'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/returns/[id]/edit/page.tsx
+157:6  Warning: React Hook useEffect has a missing dependency: 'fetchReturn'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+199:6  Warning: React Hook useEffect has missing dependencies: 'control', 'setValue', and 'watch'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+199:7  Warning: React Hook useEffect has a complex expression in the dependency array. Extract it to a separate variable so it can be statically checked.  react-hooks/exhaustive-deps
+
+./src/app/settings/page.tsx
+269:57  Error: 'ShoppingCart' is not defined.  react/jsx-no-undef
+272:58  Error: 'BarChart3' is not defined.  react/jsx-no-undef
+
+./src/app/settings/users/edit/page.tsx
+53:6  Warning: React Hook useEffect has a missing dependency: 'fetchUser'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/settings/users/password/page.tsx
+51:6  Warning: React Hook useEffect has a missing dependency: 'fetchUser'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+147:56  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
+./src/app/shipments/page.tsx
+82:6  Warning: React Hook useEffect has a missing dependency: 'fetchShipments'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+90:6  Warning: React Hook useEffect has missing dependencies: 'filters' and 'router'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/suppliers/page.tsx
+68:6  Warning: React Hook useEffect has a missing dependency: 'fetchSuppliers'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+76:6  Warning: React Hook useEffect has missing dependencies: 'filters' and 'router'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/suppliers/[id]/edit/page.tsx
+96:6  Warning: React Hook useEffect has a missing dependency: 'fetchSupplier'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+238:14  Error: 'Select' is not defined.  react/jsx-no-undef
+
+./src/app/taxes/page.tsx
+70:6  Warning: React Hook useEffect has a missing dependency: 'fetchTaxes'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+78:6  Warning: React Hook useEffect has missing dependencies: 'filters' and 'router'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+339:14  Error: 'FileText' is not defined.  react/jsx-no-undef
+
+./src/app/taxes/[id]/edit/page.tsx
+92:6  Warning: React Hook useEffect has a missing dependency: 'fetchTax'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/ui/Table.tsx
+320:12  Error: 'React' is not defined.  react/jsx-no-undef
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
